@@ -4,23 +4,26 @@ import app from './firebase.init';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useState } from 'react';
 
 
 
 const auth = getAuth(app);
 
 function App () {
+  const [email, seEmail] = useState('');
+  const [password, setPassword] = useState()
 
   const handleEmailBlur = event => {
-    console.log(event.target.value);
+    seEmail(event.target.value);
   };
 
   const handlePasswordBlur = event => {
-    console.log(event.target.value);
+    setPassword(event.target.value);
   };
 
   const handleFormSubmit = event => {
-    console.log('form submitted');
+    console.log('form submitted', email, password);
     event.preventDefault();
   }
   return (
@@ -47,9 +50,7 @@ function App () {
             <Form.Label>Password</Form.Label>
             <Form.Control onBlur={handlePasswordBlur} type="password" placeholder="Password" />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
+
           <Button variant="primary" type="submit">
             Submit
           </Button>
