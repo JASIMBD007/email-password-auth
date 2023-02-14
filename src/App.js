@@ -1,5 +1,5 @@
 import './App.css';
-import { getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import app from './firebase.init';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
@@ -23,7 +23,16 @@ function App () {
   };
 
   const handleFormSubmit = event => {
-    console.log('form submitted', email, password);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    // console.log('form submitted', email, password);
     event.preventDefault();
   }
   return (
