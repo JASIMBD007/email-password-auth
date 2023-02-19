@@ -11,6 +11,8 @@ import { useState } from 'react';
 const auth = getAuth(app);
 
 function App () {
+  const [validated, setValidated] = useState(false);
+  const [error, setError] = useState('');
   const [email, seEmail] = useState('');
   const [password, setPassword] = useState()
 
@@ -23,6 +25,19 @@ function App () {
   };
 
   const handleFormSubmit = event => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();
+      return;
+    }
+    if (!/(?=.*\W)/.test(password)) {
+      setError('Password Should Contain One Special Character!')
+      return;
+    }
+    setValidated(true);
+    setError('');
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(result => {
         const user = result.user;
@@ -46,7 +61,7 @@ function App () {
       </form> */}
       <div className='registration w-50 mx-auto mt-2'>
         <h2 className='text-primary'>Please Register</h2>
-        <Form onSubmit={handleFormSubmit}>
+        <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control onBlur={handleEmailBlur} type="email" placeholder="Enter email" required />
@@ -58,8 +73,9 @@ function App () {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control onBlur={handlePasswordBlur} type="password" placeholder="Password" required />
+            <Form.Control.Feedback type='invalid'>Please Provide a Valid Password!</Form.Control.Feedback>
           </Form.Group>
-
+          <p className='text-danger'>{error}</p>
           <Button variant="primary" type="submit">
             Submit
           </Button>
