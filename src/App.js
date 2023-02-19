@@ -49,7 +49,7 @@ function App () {
         <Form onSubmit={handleFormSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control onBlur={handleEmailBlur} type="email" placeholder="Enter email" />
+            <Form.Control onBlur={handleEmailBlur} type="email" placeholder="Enter email" required />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
@@ -57,7 +57,7 @@ function App () {
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control onBlur={handlePasswordBlur} type="password" placeholder="Password" />
+            <Form.Control onBlur={handlePasswordBlur} type="password" placeholder="Password" required />
           </Form.Group>
 
           <Button variant="primary" type="submit">
