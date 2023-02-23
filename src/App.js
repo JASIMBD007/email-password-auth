@@ -13,11 +13,11 @@ const auth = getAuth(app);
 function App () {
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState('');
-  const [email, seEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState()
 
   const handleEmailBlur = event => {
-    seEmail(event.target.value);
+    setEmail(event.target.value);
   };
 
   const handlePasswordBlur = event => {
@@ -42,9 +42,14 @@ function App () {
       .then(result => {
         const user = result.user;
         console.log(user);
+        setEmail('');
+        setPassword('');
+
+
       })
       .catch(error => {
         console.log(error);
+        setError(error.message);
       });
 
     // console.log('form submitted', email, password);
@@ -75,9 +80,12 @@ function App () {
             <Form.Control onBlur={handlePasswordBlur} type="password" placeholder="Password" required />
             <Form.Control.Feedback type='invalid'>Please Provide a Valid Password!</Form.Control.Feedback>
           </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicCheckbox">
+            <Form.Check type="checkbox" label="Already Registered" />
+          </Form.Group>
           <p className='text-danger'>{error}</p>
           <Button variant="primary" type="submit">
-            Submit
+            Register
           </Button>
         </Form>
       </div>
