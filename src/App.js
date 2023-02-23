@@ -1,5 +1,5 @@
 import './App.css';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import app from './firebase.init';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
@@ -63,7 +63,7 @@ function App () {
           console.log(user);
           setEmail('');
           setPassword('');
-
+          verifyEmail();
 
         })
         .catch(error => {
@@ -75,6 +75,20 @@ function App () {
 
     // console.log('form submitted', email, password);
     event.preventDefault();
+  }
+
+  const handlePasswordReset = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        console.log('Password reset email sent');
+      })
+  }
+
+  const verifyEmail = () => {
+    sendEmailVerification(auth.currentUser)
+      .then(() => {
+        console.log('Email Verification Sent');
+      })
   }
   return (
     <div >
@@ -105,12 +119,14 @@ function App () {
             <Form.Check onChange={handleRegisteredChange} type="checkbox" label="Already Registered" />
           </Form.Group>
           <p className='text-danger'>{error}</p>
+          <Button onClick={handlePasswordReset} variant="danger">Forget Password?</Button>
+          <br />
           <Button variant="primary" type="submit">
             {registered ? 'Login' : 'Register'}
           </Button>
         </Form>
       </div>
-    </div>
+    </div >
   );
 }
 
